@@ -25,7 +25,7 @@ async function startAutoRestore(_input) {
         let content = (textFiles[activeKey]).toString();
         restoreTimer = setTimeout(() => {
             try {
-                fs.writeFileSync('./output.txt', (content.padEnd(config.padding, config.padding_char || " ")).toString(), {encoding: "utf8"})
+                fs.writeFileSync('./output.txt', (content.padEnd(config.padding || 10, config.padding_char || " ")).toString(), {encoding: "utf8"})
                 console.log(`Restore (Expire): ${content}`);
             } catch (e) {
                 console.error(`Failed to restore text: ${e.message}`)
@@ -38,7 +38,7 @@ app.get('/set', (req, res) => {
     try {
         if (req.query.text && (req.query.text).length > 0) {
             let content = decodeURIComponent(req.query.text);
-            fs.writeFileSync('./output.txt', (content.padEnd(config.padding, config.padding_char || " ")).toString(), {encoding: "utf8"})
+            fs.writeFileSync('./output.txt', (content.padEnd(config.padding || 10, config.padding_char || " ")).toString(), {encoding: "utf8"})
             console.log(`Override: ${content}`);
             res.status(200).send('Content Saved successfully');
             startAutoRestore(req.query.time);
@@ -57,7 +57,7 @@ app.get('/load/:key', (req, res) => {
             if (Object.keys(textFiles).indexOf(key) !== -1 && textFiles[key] && textFiles[key].length > 0) {
                 let content = (textFiles[key]).toString();
                 activeKey = key;
-                fs.writeFileSync('./output.txt', (content.padEnd(config.padding, config.padding_char || " ")).toString(), {encoding: "utf8"})
+                fs.writeFileSync('./output.txt', (content.padEnd(config.padding || 10, config.padding_char || " ")).toString(), {encoding: "utf8"})
                 console.log(`Output: ${content}`);
                 res.status(200).send('Content updated successfully');
             } else {
@@ -76,7 +76,7 @@ app.get('/restore', (req, res) => {
             const textFiles = JSON.parse(fs.readFileSync(`./text.json`).toString());
             if (Object.keys(textFiles).indexOf(activeKey) !== -1 && textFiles[activeKey] && textFiles[activeKey].length > 0) {
                 let content = textFiles[activeKey];
-                fs.writeFileSync('./output.txt', (content.padEnd(config.padding, config.padding_char || " ")).toString(), {encoding: "utf8"})
+                fs.writeFileSync('./output.txt', (content.padEnd(config.padding || 10, config.padding_char || " ")).toString(), {encoding: "utf8"})
                 console.log(`Restored: ${content}`);
                 res.status(200).send('Content restored successfully');
             } else {
