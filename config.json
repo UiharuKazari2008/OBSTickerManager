@@ -1,0 +1,5 @@
+{
+  "time": ["HH:mm"],
+  "time_refresh": 30,
+  "restore_time": 60
+}
