@@ -24,7 +24,7 @@ async function startAutoRestore(_input) {
     if (Object.keys(textFiles).indexOf(activeKey) !== -1 && textFiles[activeKey] && textFiles[activeKey].length > 0) {
         let content = (textFiles[activeKey]).toString();
         if (content.padding)
-            content = content.padEnd(config.padding, config.padding_char || " ")
+            content = content.padEnd(config.padding, (config.padding_char) ? config.padding_char : " ")
         restoreTimer = setTimeout(() => {
             try {
                 fs.writeFileSync('./output.txt', content, {encoding: "utf8"})
@@ -41,7 +41,7 @@ app.get('/set', (req, res) => {
         if (req.query.text && (req.query.text).length > 0) {
             let content = decodeURIComponent(req.query.text);
             if (content.padding)
-                content = content.padEnd(config.padding, config.padding_char || " ")
+                content = content.padEnd(config.padding, (config.padding_char) ? config.padding_char : " ")
             fs.writeFileSync('./output.txt', content, {encoding: "utf8"})
             console.log(`Override: ${content}`);
             res.status(200).send('Content Saved successfully');
@@ -61,7 +61,7 @@ app.get('/load/:key', (req, res) => {
             if (Object.keys(textFiles).indexOf(key) !== -1 && textFiles[key] && textFiles[key].length > 0) {
                 let content = (textFiles[key]).toString();
                 if (content.padding)
-                    content = content.padEnd(config.padding, config.padding_char || " ")
+                    content = content.padEnd(config.padding, (config.padding_char) ? config.padding_char : " ")
                 activeKey = key;
                 fs.writeFileSync('./output.txt', content, {encoding: "utf8"})
                 console.log(`Output: ${content}`);
@@ -83,7 +83,7 @@ app.get('/restore', (req, res) => {
             if (Object.keys(textFiles).indexOf(activeKey) !== -1 && textFiles[activeKey] && textFiles[activeKey].length > 0) {
                 let content = textFiles[activeKey];
                 if (content.padding)
-                    content = content.padEnd(config.padding, config.padding_char || " ")
+                    content = content.padEnd(config.padding, (config.padding_char) ? config.padding_char : " ")
                 fs.writeFileSync('./output.txt', content, {encoding: "utf8"})
                 console.log(`Restored: ${content}`);
                 res.status(200).send('Content restored successfully');
