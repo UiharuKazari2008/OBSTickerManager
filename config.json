@@ -1,5 +1,6 @@
 {
   "time": ["HH:mm"],
+  "padding": 10,
   "time_refresh": 30,
   "restore_time": 60
 }
